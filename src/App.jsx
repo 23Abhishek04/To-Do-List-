@@ -69,101 +69,122 @@ function App() {
     setTodos(newTodos);
   };
 
-  return (
-    <>
-      <div className="h-screen bg-[#F5F7FA] text-[#2B2B2B]">
-        <Navbar />
-        <div className="container min-h-[80vh] w-4/12 p-5 mx-auto my-5 bg-[#E3EAF2] rounded-xl">
-          {/* Display current date and time */}
-          <div className="flex justify-center">
-            <h3 className="text-lg font-bold text-[#2B2B2B]">{currentTime.toLocaleString()}</h3>
-          </div>
-          <div className="flex justify-center">
-            <h1 className="my-5 mb-2 font-serif text-xl font-bold text-[#2B2B2B]">
-              Add a To Do's <i className="fa-regular fa-face-smile"></i>
-            </h1>
-          </div>
-          <div className="flex justify-center my-5 mt-0 mb-3">
-            <input
-              onChange={handleChange}
-              value={todo}
-              type="text"
-              className="w-1/2 pl-3 rounded-xl"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && todo.length >= 3) {
-                  handleAdd();
-                }
-              }}
-            />
-          </div>
-          <div className="mb-3 ml-28">
-            <input
-              onChange={toggleFinished}
-              type="checkbox"
-              checked={showFinished}
-            />{" "}
-            Show Finished
-          </div>
-
-          <h2 className="flex justify-center font-serif text-lg font-bold text-[#2B2B2B]">
-            Your To Do's
-          </h2>
-          <div className="todos">
-            {todos.length === 0 && (
-              <div className="flex items-center justify-center gap-2 m-5 font-light h-72 text-[#2B2B2B]">
-                No To Do's To Display <i className="fa-regular fa-face-frown-open"></i>
-              </div>
-            )}
-            {todos
-              .filter((item) => showFinished || !item.isCompleted)
-              .map((item) => (
-                <div className="flex justify-center" key={item.id}>
-                  <div className="flex items-center justify-between w-full px-4 my-3 mt-5 todo">
-                    <div className="flex items-center gap-4">
-                      {/* Checkbox */}
-                      <input
-                        name={item.id}
-                        onChange={handleCheckbox}
-                        type="checkbox"
-                        checked={item.isCompleted}
-                      />
-                      {/* Task Text */}
-                      <div className={item.isCompleted ? "line-through" : ""}>
-                        {item.todo}
+    return (
+      <>
+        <div className="min-h-screen bg-[#F5F7FA] text-[#2B2B2B]">
+          <Navbar />
+          <div className="container mx-auto my-5 p-5 w-full max-w-3xl bg-[#E3EAF2] rounded-xl shadow-lg">
+            {/* Current date and time */}
+            <div className="mb-4 text-center">
+              <h3 className="text-lg font-bold text-[#2B2B2B]">
+                {currentTime.toLocaleString()}
+              </h3>
+            </div>
+  
+            {/* Title */}
+            <div className="text-center">
+              <h1 className="my-5 text-2xl font-serif font-bold text-[#2B2B2B]">
+                Add a To Do's <i className="fa-regular fa-face-smile"></i>
+              </h1>
+            </div>
+  
+            {/* Input field */}
+            <div className="flex justify-center mb-3">
+              <input
+                onChange={handleChange}
+                value={todo}
+                type="text"
+                className="w-full max-w-md px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-[#3A6EA5]"
+                placeholder="Enter your task..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && todo.length >= 3) {
+                    handleAdd();
+                  }
+                }}
+              />
+            </div>
+  
+            {/* Toggle finished tasks */}
+            <div className="flex items-center justify-center mb-5">
+              <label className="flex items-center gap-2">
+                <input
+                  onChange={toggleFinished}
+                  type="checkbox"
+                  checked={showFinished}
+                  className="form-checkbox"
+                />
+                <span>Show Finished</span>
+              </label>
+            </div>
+  
+            {/* Task List */}
+            <h2 className="mb-3 font-serif text-lg font-bold text-center">
+              Your To Do's
+            </h2>
+            <div className="todos">
+              {todos.length === 0 ? (
+                <div className="flex flex-col items-center gap-2 py-10 text-[#2B2B2B]">
+                  <p>No To Do's To Display</p>
+                  <i className="text-xl fa-regular fa-face-frown-open"></i>
+                </div>
+              ) : (
+                todos
+                  .filter((item) => showFinished || !item.isCompleted)
+                  .map((item) => (
+                    <div
+                      className="flex items-center justify-between p-3 mb-3 bg-white rounded-md shadow-sm"
+                      key={item.id}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          name={item.id}
+                          onChange={handleCheckbox}
+                          type="checkbox"
+                          checked={item.isCompleted}
+                          className="form-checkbox"
+                        />
+                        <span
+                          className={`${
+                            item.isCompleted ? "line-through text-gray-500" : ""
+                          }`}
+                        >
+                          {item.todo}
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={(e) => handleEdit(e, item.id)}
+                          className="px-3 py-1 text-sm font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                        >
+                          <i className="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <button
+                          onClick={(e) => handleDelete(e, item.id)}
+                          className="px-3 py-1 text-sm font-bold text-white bg-red-600 rounded-md hover:bg-red-700"
+                        >
+                          <i className="fa-solid fa-trash"></i>
+                        </button>
                       </div>
                     </div>
-                    {/* Edit and Delete Buttons */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={(e) => handleEdit(e, item.id)}
-                        className="p-2 py-1 text-sm font-bold text-white rounded-md bg-[#3A6EA5] hover:bg-[#91d5f0] disabled:bg-[#3A6EA5]"
-                      >
-                        <i className="fa-regular fa-pen-to-square"></i>
-                      </button>
-                      <button
-                        onClick={(e) => handleDelete(e, item.id)}
-                        className="p-2 py-1 text-sm font-bold text-white rounded-md bg-[#3A6EA5] hover:bg-[#91d5f0] disabled:bg-[#3A6EA5]"
-                      >
-                        <i className="fa-solid fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-          <div className="flex justify-center">
-            <button
-              onClick={handleAdd}
-              disabled={todo.length < 3}
-              className="w-16 h-16 p-2 py-1 mx-6 text-sm text-white rounded-full bg-[#3A6EA5] hover:bg-[#91d5f0] disabled:bg-[#3A6EA5]"
-            >
-              <i className="fa-regular fa-floppy-disk"></i>
-            </button>
+                  ))
+              )}
+            </div>
+  
+            {/* Add Task Button */}
+            <div className="flex justify-center mt-5">
+              <button
+                onClick={handleAdd}
+                disabled={todo.length < 3}
+                className="w-16 h-16 text-white bg-blue-600 rounded-full hover:bg-blue-700 disabled:opacity-50"
+              >
+                <i className="fa-regular fa-floppy-disk"></i>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
-}
-
-export default App;
+      </>
+    );
+  }
+  
+  export default App;
+  

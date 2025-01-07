@@ -1,7 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem; /* Reduced padding for smaller screens */
   text-align: center;
 }
 
@@ -10,6 +10,7 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  max-width: 100%; /* Ensure the logo scales properly */
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -34,9 +35,65 @@
 }
 
 .card {
-  padding: 2em;
+  padding: 1.5em;
+  margin: 1rem auto;
+  max-width: 90%; /* Use most of the screen on small devices */
+  background-color: #f9f9f9; /* Add a subtle background color for distinction */
+  border-radius: 8px; /* Rounded corners for better appearance */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add some depth */
 }
 
 .read-the-docs {
   color: #888;
+  font-size: 1rem;
+  line-height: 1.5; /* Improve readability on smaller screens */
 }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .logo {
+    height: 5em; /* Scale down logo */
+    padding: 1em;
+  }
+
+  .card {
+    padding: 1em;
+    max-width: 95%; /* Allow more width on smaller screens */
+  }
+
+  .read-the-docs {
+    font-size: 0.95rem; /* Slightly smaller font for compactness */
+  }
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    height: 4em; /* Further reduce logo size */
+    padding: 0.5em;
+  }
+
+  .card {
+    padding: 0.75em;
+    max-width: 100%; /* Use the full screen width for very small devices */
+  }
+
+  .read-the-docs {
+    font-size: 0.85rem; /* Further adjust font size for readability */
+    line-height: 1.4; /* Compact line spacing */
+  }
+}
+
+/* Accessibility improvements */
+button, a {
+  touch-action: manipulation; /* Ensure touch responsiveness */
+  font-size: 1rem; /* Consistent button and link size for touch targets */
+}
+
